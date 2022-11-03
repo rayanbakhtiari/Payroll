@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Domain.PaySlip;
 using FluentValidation;
 using System.Globalization;
 

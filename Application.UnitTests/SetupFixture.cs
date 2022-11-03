@@ -21,11 +21,12 @@ namespace Application.UnitTests
 
         public SetupFixture()
         {
+            PaySlipRepositoryMock = new();
             _services = new ServiceCollection();
             _services.InjectApplicationHandlers();
+            _services.AddSingleton<IPaySlipRepository>(PaySlipRepositoryMock.Object);
             var provider = _services.BuildServiceProvider();
             Mediator = provider.GetService<IMediator>();    
-            PaySlipRepositoryMock = new();
 
         }
         public void Dispose()

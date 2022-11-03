@@ -1,5 +1,5 @@
 ﻿using Application.EmployeeMonthlyPaySlip;
-using Domain;
+using Domain.PaySlip;
 using System;
 using System.Collections.Generic;
 using System.Linq;

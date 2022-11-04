@@ -5,7 +5,7 @@
         public string Name { get; set; } = String.Empty;
         public string LastName { get; set; } = String.Empty ;
         public decimal AnnualSalary { get; set; }
-        public int SuperRate { get; set; }
+        public string SuperRate { get; set; } = String.Empty;
         public string PayPeriod { get; set; } = String.Empty;
 
         public string GetFullName()

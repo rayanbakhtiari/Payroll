@@ -40,13 +40,13 @@ namespace Application.UnitTests.MonthlyPaySlip
         [Fact]
         public void Employee_Super_Rate_Should_Be_Between_0_To_50_Percent()
         {
-            monthlyPaySlipInput.SuperRate = -1;
+            monthlyPaySlipInput.SuperRate = "-1%";
             AssertThrowValidationErrorFor(monthlyPaySlipInput, p => p.SuperRate);
 
-            monthlyPaySlipInput.SuperRate = 51;
+            monthlyPaySlipInput.SuperRate = "51%";
             AssertThrowValidationErrorFor(monthlyPaySlipInput, p => p.SuperRate);
 
-            monthlyPaySlipInput.SuperRate = 20;
+            monthlyPaySlipInput.SuperRate = "20%";
             AssertNotThrowValidationErrorFor(monthlyPaySlipInput, p => p.SuperRate);
         }
         [Fact]

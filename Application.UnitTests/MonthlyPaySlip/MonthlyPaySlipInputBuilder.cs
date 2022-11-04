@@ -13,7 +13,7 @@ namespace Application.UnitTests.MonthlyPaySlip
         private string name = "David";
         private string lastName = "Jeffries";
         private decimal annualSalary = 90000m;
-        private int superRate = 40;
+        private string superRate = "40%";
         private string payPeriod = "March";
         public List<MonthlyPaySlipInput> BuildAListOf(int length)
         {
@@ -57,7 +57,7 @@ namespace Application.UnitTests.MonthlyPaySlip
             items[index].AnnualSalary = annualSalary;
             return items;
         }
-        public static List<MonthlyPaySlipInput> WithSuperRate(this List<MonthlyPaySlipInput> items, int index, int superRate)
+        public static List<MonthlyPaySlipInput> WithSuperRate(this List<MonthlyPaySlipInput> items, int index, string superRate)
         {
             if(index > items.Count -1)
                 throw new ArgumentOutOfRangeException("index");

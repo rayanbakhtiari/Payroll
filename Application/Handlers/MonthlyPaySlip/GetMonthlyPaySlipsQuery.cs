@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Application.EmployeeMonthlyPaySlip
+namespace Application.Handlers.MonthlyPaySlip
 {
     public class GetMonthlyPaySlipsQuery : IRequest<GetMonthlyPaySlipsResponse>
     {

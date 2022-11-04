@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using System.Runtime.CompilerServices;
+using Application.TaxCalculator;
 
 namespace Application
 {
@@ -14,6 +15,7 @@ namespace Application
         public static void AddApplicationServices(this IServiceCollection services)
         {
             services.InjectApplicationHandlers();
+            services.AddSingleton<ITaxCalculator, TaxCalculator2022>();
         }
         public static void InjectApplicationHandlers(this IServiceCollection services)
         {

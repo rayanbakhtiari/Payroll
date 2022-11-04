@@ -1,4 +1,5 @@
-﻿using Application.EmployeeMonthlyPaySlip;
+﻿using Application.Handlers.MonthlyPaySlip;
+using Application.Validators;
 using Domain.PaySlip;
 using MediatR;
 using Moq;
@@ -33,7 +34,7 @@ namespace Application.UnitTests.MonthlyPaySlip
 
         }
         [Fact]
-        public async Task Response_EmployeeName_Should_Be_Input_Name_Plus_LastName()
+        public async Task EmployeeName_Should_Be_Input_Name_Plus_LastName()
         {
             SetupPaySlipRepositoryWith(p => 
                 p.BuildAListOf(2)
@@ -46,7 +47,7 @@ namespace Application.UnitTests.MonthlyPaySlip
             Assert.Equal("Amelia Taylor", response.Result[1].Name);
         }
         [Fact]
-        public async Task Response_PayPeriod_Should_be_Correct_Based_On_Input_PayPeriod()
+        public async Task PayPeriod_Should_be_Correct_Based_On_Input_PayPeriod()
         {
             SetupPaySlipRepositoryWith(p => p.BuildAListOf(1).WithPayPeriod(0, "March"));
             var response = await Mediator.Send(new GetMonthlyPaySlipsQuery());
@@ -62,7 +63,7 @@ namespace Application.UnitTests.MonthlyPaySlip
         }
 
         [Fact]
-        public async Task Response_GrossSalary_Should_Be_Input_AnnualSalary_Devided_By_Twelve()
+        public async Task GrossSalary_Should_Be_Input_AnnualSalary_Devided_By_Twelve()
         {
             SetupPaySlipRepositoryWith(p =>
                 p.BuildAListOf(2)
@@ -73,6 +74,33 @@ namespace Application.UnitTests.MonthlyPaySlip
             Assert.Equal(5004.17m, response.Result[0].GrossIncome);
             Assert.Equal(10000.00m, response.Result[1].GrossIncome);
 
+        }
+        [Fact]
+        public async Task IncomeTax_Should_Return_Correct_Value_Based_On_Tax_Table()
+        {
+            SetupPaySlipRepositoryWith(p =>
+                p.BuildAListOf(5)
+                    .WithAnnualSalary(0,14000m)
+                    .WithAnnualSalary(1,47000m)
+                    .WithAnnualSalary(2,60050m)
+                    .WithAnnualSalary(3,180000m)
+                    .WithAnnualSalary(4,230000m));
+            var response = await Mediator.Send(new GetMonthlyPaySlipsQuery());
+            Assert.Equal(122.50m,response.Result[0].IncomeTax);
+            Assert.Equal(603.75m,response.Result[1].IncomeTax);
+            Assert.Equal(919.58m,response.Result[2].IncomeTax);
+            Assert.Equal(4193.33m,response.Result[3].IncomeTax);
+            Assert.Equal(5818.33m,response.Result[4].IncomeTax);
+        }
+        [Fact]
+        public async Task NetIncome_Should_Return_GrossIncome_Minus_IncomeTax()
+        {
+            SetupPaySlipRepositoryWith(p =>
+                p.BuildAListOf(2)
+                    .WithAnnualSalary(0, 60050m)
+                    .WithAnnualSalary(1, 47000m));
+            var response = await Mediator.Send(new GetMonthlyPaySlipsQuery());
+            Assert.Equal(4084.59m, response.Result[0].NetIncome);
         }
 
         private void SetupPaySlipRepositoryWith(Func<MonthlyPaySlipInputBuilder,List<MonthlyPaySlipInput>> func)

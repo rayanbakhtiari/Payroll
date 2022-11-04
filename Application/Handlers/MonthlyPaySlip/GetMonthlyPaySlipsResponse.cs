@@ -1,6 +1,6 @@
 ﻿using Domain.PaySlip;
 
-namespace Application.EmployeeMonthlyPaySlip
+namespace Application.Handlers.MonthlyPaySlip
 {
     public class GetMonthlyPaySlipsResponse
     {

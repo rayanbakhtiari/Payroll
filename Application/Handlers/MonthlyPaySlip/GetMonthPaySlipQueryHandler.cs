@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using Application.TaxCalculator;
+using Application.Validators;
+using Domain;
 using Domain.PaySlip;
 using MediatR;
 using System;
@@ -8,15 +10,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeeMonthlyPaySlip
+namespace Application.Handlers.MonthlyPaySlip
 {
     internal class GetMonthPaySlipQueryHandler : IRequestHandler<GetMonthlyPaySlipsQuery, GetMonthlyPaySlipsResponse>
     {
         private readonly IPaySlipRepository paySlipRepository;
+        private readonly ITaxCalculator taxCalculator;
 
-        public GetMonthPaySlipQueryHandler(IPaySlipRepository paySlipRepository)
+        public GetMonthPaySlipQueryHandler(IPaySlipRepository paySlipRepository, ITaxCalculator taxCalculator)
         {
             this.paySlipRepository = paySlipRepository;
+            this.taxCalculator = taxCalculator;
         }
         public async Task<GetMonthlyPaySlipsResponse> Handle(GetMonthlyPaySlipsQuery request, CancellationToken cancellationToken)
         {
@@ -24,19 +28,20 @@ namespace Application.EmployeeMonthlyPaySlip
             List<MonthlyPaySlipInput> monthlyPaySlipInputList = await paySlipRepository.GetMonthlyPaySlipList();
 
             MonthlyPaySlipInputValidator inputValidator;
-            monthlyPaySlipInputList?.ForEach(monthlyPaySlipInput =>
+            monthlyPaySlipInputList?.ForEach(paySlipInput =>
             {
                 inputValidator = new();
-                var result = inputValidator.Validate(monthlyPaySlipInput);
+                var result = inputValidator.Validate(paySlipInput);
                 if (!result.IsValid)
-                    throw new MonthlyPaySlipInputValidationException($"input validation error at index {monthlyPaySlipInputList.IndexOf(monthlyPaySlipInput)}", result.Errors);
+                    throw new MonthlyPaySlipInputValidationException($"input validation error at index {monthlyPaySlipInputList.IndexOf(paySlipInput)}", result.Errors);
 
-                MonthlyPaySlipOutput monthlyPaySlipOutput = new();
-                monthlyPaySlipOutput.PayPeriod = getPayPeriod(monthlyPaySlipInput.PayPeriod);
-                monthlyPaySlipOutput.Name = monthlyPaySlipInput.GetFullName();
-                monthlyPaySlipOutput.GrossIncome = monthlyPaySlipInput.GetGrossIncome();
+                MonthlyPaySlipOutput paySlipOutput = new();
+                paySlipOutput.PayPeriod = getPayPeriod(paySlipInput.PayPeriod);
+                paySlipOutput.Name = paySlipInput.GetFullName();
+                paySlipOutput.GrossIncome = paySlipInput.GetGrossIncome();
+                paySlipOutput.IncomeTax = taxCalculator.GetTaxForAnnualSalary(paySlipInput.AnnualSalary);
 
-                response.Result.Add(monthlyPaySlipOutput);
+                response.Result.Add(paySlipOutput);
             });
             return response;
         }

@@ -23,7 +23,7 @@ namespace Application.UnitTests
         {
             PaySlipRepositoryMock = new();
             _services = new ServiceCollection();
-            _services.InjectApplicationHandlers();
+            _services.AddApplicationServices();
             _services.AddSingleton<IPaySlipRepository>(PaySlipRepositoryMock.Object);
             var provider = _services.BuildServiceProvider();
             Mediator = provider.GetService<IMediator>();    

@@ -2,9 +2,9 @@
 using FluentValidation;
 using System.Globalization;
 
-namespace Application.EmployeeMonthlyPaySlip
+namespace Application.Validators
 {
-    public class MonthlyPaySlipInputValidator: AbstractValidator<MonthlyPaySlipInput>
+    public class MonthlyPaySlipInputValidator : AbstractValidator<MonthlyPaySlipInput>
     {
         public MonthlyPaySlipInputValidator()
         {

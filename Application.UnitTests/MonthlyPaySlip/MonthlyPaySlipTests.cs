@@ -102,6 +102,18 @@ namespace Application.UnitTests.MonthlyPaySlip
             var response = await Mediator.Send(new GetMonthlyPaySlipsQuery());
             Assert.Equal(4084.59m, response.Result[0].NetIncome);
         }
+        [Fact]
+        public async Task Super_Should_Return_GrossIncome_Multiply_InputSuperRatio()
+        {
+
+            SetupPaySlipRepositoryWith(p =>
+                p.BuildAListOf(2)
+                    .WithAnnualSalary(0, 60050).WithSuperRate(0,"9%")
+                    .WithAnnualSalary(1, 120000).WithSuperRate(1,"10%"));
+            var response = await Mediator.Send(new GetMonthlyPaySlipsQuery());
+            Assert.Equal(450.38m, response.Result[0].Super);
+            Assert.Equal(1000.00m, response.Result[1].Super);
+        }
 
         private void SetupPaySlipRepositoryWith(Func<MonthlyPaySlipInputBuilder,List<MonthlyPaySlipInput>> func)
         {

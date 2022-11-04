@@ -40,6 +40,7 @@ namespace Application.Handlers.MonthlyPaySlip
                 paySlipOutput.Name = paySlipInput.GetFullName();
                 paySlipOutput.GrossIncome = paySlipInput.GetGrossIncome();
                 paySlipOutput.IncomeTax = taxCalculator.GetTaxForAnnualSalary(paySlipInput.AnnualSalary);
+                paySlipOutput.Super = paySlipInput.GetSuperRate(); 
 
                 response.Result.Add(paySlipOutput);
             });

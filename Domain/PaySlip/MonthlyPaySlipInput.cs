@@ -17,5 +17,13 @@
         {
             return decimal.Round((AnnualSalary / 12),2);
         }
+        public decimal GetSuperRate()
+        {
+            decimal super;
+            bool isParsable = decimal.TryParse(SuperRate.Replace("%", ""), out super);
+            if (!isParsable)
+                throw new InvalidDataException("SuperRate is not a valid rate");
+            return decimal.Round(super * 0.01m * GetGrossIncome(),2);
+        }
     }
 }

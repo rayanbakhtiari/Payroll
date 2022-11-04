@@ -7,5 +7,6 @@
         public decimal GrossIncome { get; set; }
         public decimal IncomeTax { get; set; }
         public decimal NetIncome { get =>  GrossIncome - IncomeTax; }
+        public decimal Super { get; set; }
     }
 }

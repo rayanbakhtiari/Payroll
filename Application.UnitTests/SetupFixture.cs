@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Handlers.MonthlyPaySlip;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
@@ -17,15 +18,17 @@ namespace Application.UnitTests
         public IMediator? Mediator { get; private set; }
 
         public Mock<IPaySlipRepository> PaySlipRepositoryMock { get; private set; }
+        private Mock<IPaySlipRepositoryFactory> paySlipRepositoryFactoryMock = new();
 
 
         public SetupFixture()
         {
             SetCultureInfoToEnUS();
             PaySlipRepositoryMock = new();
+            paySlipRepositoryFactoryMock.Setup(p => p.CreatePaySlipRepository()).Returns(PaySlipRepositoryMock.Object);
             _services = new ServiceCollection();
             _services.AddApplicationServices();
-            _services.AddSingleton<IPaySlipRepository>(PaySlipRepositoryMock.Object);
+            _services.AddSingleton<IPaySlipRepositoryFactory>(paySlipRepositoryFactoryMock.Object);
             var provider = _services.BuildServiceProvider();
             Mediator = provider.GetService<IMediator>();
 

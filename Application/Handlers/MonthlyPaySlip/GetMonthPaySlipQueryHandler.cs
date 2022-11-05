@@ -17,9 +17,9 @@ namespace Application.Handlers.MonthlyPaySlip
         private readonly IPaySlipRepository paySlipRepository;
         private readonly ITaxCalculator taxCalculator;
 
-        public GetMonthPaySlipQueryHandler(IPaySlipRepository paySlipRepository, ITaxCalculator taxCalculator)
+        public GetMonthPaySlipQueryHandler(IPaySlipRepositoryFactory paySlipRepositoryFactory ,ITaxCalculator taxCalculator)
         {
-            this.paySlipRepository = paySlipRepository;
+            this.paySlipRepository = paySlipRepositoryFactory.CreatePaySlipRepository();
             this.taxCalculator = taxCalculator;
         }
         public async Task<GetMonthlyPaySlipsResponse> Handle(GetMonthlyPaySlipsQuery request, CancellationToken cancellationToken)

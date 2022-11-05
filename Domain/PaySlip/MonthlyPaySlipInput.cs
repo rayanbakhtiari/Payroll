@@ -37,5 +37,9 @@ namespace Domain.PaySlip
             string dayInMonth = $"01 {PayPeriod} - {numberOfDays} {PayPeriod}";
             return dayInMonth;
         }
+        public override string ToString()
+        {
+            return $"{{ Name: {Name}, LastName: {LastName}, AnnualSalary: {AnnualSalary}, SuperRate: {SuperRate}, PayPeriod: {PayPeriod} }}";
+        }
     }
 }

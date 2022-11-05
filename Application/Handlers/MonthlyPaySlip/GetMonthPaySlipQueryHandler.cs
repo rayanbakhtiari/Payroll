@@ -3,6 +3,7 @@ using Application.Validators;
 using Domain;
 using Domain.PaySlip;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -16,11 +17,13 @@ namespace Application.Handlers.MonthlyPaySlip
     {
         private readonly IPaySlipRepository paySlipRepository;
         private readonly ITaxCalculator taxCalculator;
+        private readonly ILogger<GetMonthPaySlipQueryHandler> logger;
 
-        public GetMonthPaySlipQueryHandler(IPaySlipRepositoryFactory paySlipRepositoryFactory ,ITaxCalculator taxCalculator)
+        public GetMonthPaySlipQueryHandler(IPaySlipRepositoryFactory paySlipRepositoryFactory ,ITaxCalculator taxCalculator, ILogger<GetMonthPaySlipQueryHandler> logger)
         {
             this.paySlipRepository = paySlipRepositoryFactory.CreatePaySlipRepository();
             this.taxCalculator = taxCalculator;
+            this.logger = logger;
         }
         public async Task<GetMonthlyPaySlipsResponse> Handle(GetMonthlyPaySlipsQuery request, CancellationToken cancellationToken)
         {
@@ -28,6 +31,7 @@ namespace Application.Handlers.MonthlyPaySlip
             List<MonthlyPaySlipInput> monthlyPaySlipInputList = await paySlipRepository.GetMonthlyPaySlipInputList();
 
             MonthlyPaySlipInputValidator inputValidator;
+            logger.LogInformation("Calculating PayRoll ...");
             monthlyPaySlipInputList?.ForEach(paySlipInput =>
             {
                 inputValidator = new();

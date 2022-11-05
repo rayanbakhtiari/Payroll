@@ -3,10 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 
 namespace Application.UnitTests
@@ -21,14 +21,23 @@ namespace Application.UnitTests
 
         public SetupFixture()
         {
+            SetCultureInfoToEnUS();
             PaySlipRepositoryMock = new();
             _services = new ServiceCollection();
             _services.AddApplicationServices();
             _services.AddSingleton<IPaySlipRepository>(PaySlipRepositoryMock.Object);
             var provider = _services.BuildServiceProvider();
-            Mediator = provider.GetService<IMediator>();    
+            Mediator = provider.GetService<IMediator>();
 
         }
+        private void SetCultureInfoToEnUS()
+        {
+            var cultureInfo = new CultureInfo("en-US");
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+        }
+
         public void Dispose()
         {
             _services?.Clear();

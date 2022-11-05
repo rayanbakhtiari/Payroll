@@ -25,7 +25,7 @@ namespace Application.Handlers.MonthlyPaySlip
         public async Task<GetMonthlyPaySlipsResponse> Handle(GetMonthlyPaySlipsQuery request, CancellationToken cancellationToken)
         {
             GetMonthlyPaySlipsResponse response = new();
-            List<MonthlyPaySlipInput> monthlyPaySlipInputList = await paySlipRepository.GetMonthlyPaySlipList();
+            List<MonthlyPaySlipInput> monthlyPaySlipInputList = await paySlipRepository.GetMonthlyPaySlipInputList();
 
             MonthlyPaySlipInputValidator inputValidator;
             monthlyPaySlipInputList?.ForEach(paySlipInput =>
@@ -36,7 +36,7 @@ namespace Application.Handlers.MonthlyPaySlip
                     throw new MonthlyPaySlipInputValidationException($"input validation error at index {monthlyPaySlipInputList.IndexOf(paySlipInput)}", result.Errors);
 
                 MonthlyPaySlipOutput paySlipOutput = new();
-                paySlipOutput.PayPeriod = getPayPeriod(paySlipInput.PayPeriod);
+                paySlipOutput.PayPeriod = paySlipInput.getPayPeriod();
                 paySlipOutput.Name = paySlipInput.GetFullName();
                 paySlipOutput.GrossIncome = paySlipInput.GetGrossIncome();
                 paySlipOutput.IncomeTax = taxCalculator.GetTaxForAnnualSalary(paySlipInput.AnnualSalary);
@@ -44,15 +44,10 @@ namespace Application.Handlers.MonthlyPaySlip
 
                 response.Result.Add(paySlipOutput);
             });
+
+            await paySlipRepository.InsertMonthlyPaySlipOutputList(response.Result);
             return response;
         }
 
-        private string getPayPeriod(string month)
-        {
-            int monthNumber = DateTime.ParseExact(month, "MMMM", CultureInfo.CurrentCulture).Month;
-            int numberOfDays = DateTime.DaysInMonth(DateTime.Now.Year, monthNumber);
-            string dayInMonth = $"01 {month} - {numberOfDays} {month}";
-            return dayInMonth;
-        }
     }
 }

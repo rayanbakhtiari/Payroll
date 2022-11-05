@@ -1,6 +1,8 @@
 using Application;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-
+using System.Globalization;
+//Set CultureInfo to en-US in order to prevent CultureInfo at destination runtime.
+SetCultureInfoToEnUS();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -28,3 +30,11 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void SetCultureInfoToEnUS()
+{
+    var cultureInfo = new CultureInfo("en-US");
+
+    CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+    CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+}

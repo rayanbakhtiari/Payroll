@@ -4,6 +4,7 @@ namespace Application
 {
     public interface IPaySlipRepository
     {
-        Task<List<MonthlyPaySlipInput>> GetMonthlyPaySlipList();
+        Task<List<MonthlyPaySlipInput>> GetMonthlyPaySlipInputList();
+        Task InsertMonthlyPaySlipOutputList(List<MonthlyPaySlipOutput> result);
     }
 }

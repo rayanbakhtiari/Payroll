@@ -118,7 +118,7 @@ namespace Application.UnitTests.MonthlyPaySlip
         private void SetupPaySlipRepositoryWith(Func<MonthlyPaySlipInputBuilder,List<MonthlyPaySlipInput>> func)
         {
             MonthlyPaySlipInputBuilder test = new MonthlyPaySlipInputBuilder();
-            setupFixture.PaySlipRepositoryMock.Setup(pr => pr.GetMonthlyPaySlipList()).ReturnsAsync(() =>
+            setupFixture.PaySlipRepositoryMock.Setup(pr => pr.GetMonthlyPaySlipInputList()).ReturnsAsync(() =>
                 func(test)
             );
         }

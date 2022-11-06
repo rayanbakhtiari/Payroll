@@ -3,6 +3,7 @@ using Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Globalization;
 using System.Reflection;
+using Serilog;
 
 internal class Program
 {
@@ -16,8 +17,9 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
         builder.Services.AddControllers();
+        builder.Host.UseSerilog((ctx, lc) => lc
+        .WriteTo.Console());
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -33,7 +35,6 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
         app.UseHttpsRedirection();
 
         app.UseAuthorization();

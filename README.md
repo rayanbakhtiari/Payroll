@@ -15,5 +15,7 @@ After cloning the repository, open the project root folder in the command prompt
 - input.csv and monthly_pay_slips_input_sample.csv that you can use as sample CSV files with the correct format.
 - payroll.cmd file, a batch file, will help you run the command line application more easily. You can pass two parameters to this command. The first parameter is the input CSV file address, and the second is the output CSV file address. For example, to use this command, open cmd and run this command: `payroll input.csv calculation_result.csv` .After running this command, it will read employee information from the input.csv file and generate the calculation result in calculation_result.csv in the current directory. In case you can not use the payroll.cmd, you can manually run this command at the command line: `dotnet run --project .\Payroll.ConsoleApp\ input.csv calculation_result.csv`
 - payrollweb.cmd file, a batch file, will help you run the web application. Simply run this command: payrollweb and will start asp.net core application and will run the Application at this [https://localhost:5001](https://localhost:5001 "https://localhost:5001") address. After the Application runs successfully, you need to open the [Swagger UI](https://localhost:5001/swagger/index.html "Swagger UI") in your browser to start testing the Application.
+
+### The Applications screenshot
 ![](./swagger.png)
 ![](./command.png)

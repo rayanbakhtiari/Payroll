@@ -17,7 +17,7 @@ namespace Infrastructure
         public static void AddInfrastructureServices(this IServiceCollection services)
         {
         }
-        public static void AddPaySlipFileRepositoryForConsoleApp(this IServiceCollection services, string inputFileAddress, string outputFileAddress)
+        public static void AddPaySlipFileRepositoryWithInputOutputFileAddress(this IServiceCollection services, string inputFileAddress, string outputFileAddress)
         {
             services.AddScoped<IPaySlipRepositoryFactory>(p => {
                 ILoggerFactory? logger = p.GetService<ILoggerFactory>();
@@ -26,6 +26,14 @@ namespace Infrastructure
                     InputFileAddress = inputFileAddress,
                     OutputFileAddress = outputFileAddress
                 };
+                return paySlipFactory;
+            });
+        }
+        public static void AddPaySlipFileRepositoryWithInputStream(this IServiceCollection services, Stream inputStream)
+        {
+            services.AddScoped<IPaySlipRepositoryFactory>(p => {
+                ILoggerFactory? logger = p.GetService<ILoggerFactory>();
+                PaySlipFileRepositoryFactoryWithInputStream paySlipFactory = new(inputStream, logger ?? new NullLoggerFactory());
                 return paySlipFactory;
             });
         }

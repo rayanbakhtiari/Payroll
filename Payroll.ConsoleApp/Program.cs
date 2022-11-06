@@ -13,7 +13,7 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddApplicationServices();
         var inputFileAddress = args?.Length > 0 ? args[0] : "input.csv";
         var outputFileAddress = args?.Length> 1 ? args[1] : "output.csv";
-        services.AddPaySlipFileRepositoryForConsoleApp(inputFileAddress, outputFileAddress);
+        services.AddPaySlipFileRepositoryWithInputOutputFileAddress(inputFileAddress, outputFileAddress);
     })
     .UseSerilog((ctx, lc) =>
     {

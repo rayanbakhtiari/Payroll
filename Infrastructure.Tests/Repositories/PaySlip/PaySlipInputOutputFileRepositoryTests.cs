@@ -27,6 +27,19 @@ namespace Infrastructure.Tests.Repositories.PaySlip
 
         }
         [Fact]
+        public async Task InputStream_IsValid_Should_Return_PaySlipInputList()
+        {
+            string inputFileAddress =getFullAddress(@"InputData\monthly_pay_slips_input.csv");
+            using (var reader = new StreamReader(inputFileAddress))
+            {
+                var fileRepositoryFactory = setupFixture.AddPaySlipFileRepositoryFactoryWithInputStream(reader.BaseStream, string.Empty);
+                var fileRepository = fileRepositoryFactory.CreatePaySlipRepository();
+                var paySlipInputList = await fileRepository.GetMonthlyPaySlipInputList();
+                Assert.True(paySlipInputList.Any());
+            }
+
+        }
+        [Fact]
         public async Task InputAddressFile_IsNotValid_Should_Throw_FileNotFoundException()
         {
             string inputFileAddress =getFullAddress(@"InputData\monthly_pay_slips_input1.csv");

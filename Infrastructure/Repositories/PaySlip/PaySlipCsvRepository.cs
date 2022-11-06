@@ -12,22 +12,17 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories.PaySlip
 {
-    internal class PaySlipCsvRepository : IPaySlipRepository
+    internal class PaySlipCsvRepository : PaySlipCsvRepositoryBase, IPaySlipRepository
     {
         private readonly string inputFileAddress;
-        private readonly ILogger<PaySlipCsvRepository > logger;
-        private readonly string? outputFileAddres;
 
-        public PaySlipCsvRepository(string inputFileAddress, ILoggerFactory loggerFactory)
+        public PaySlipCsvRepository(string inputFileAddress, ILoggerFactory loggerFactory): base(string.Empty, loggerFactory)
         {
             this.inputFileAddress = inputFileAddress;
-            this.logger = loggerFactory.CreateLogger<PaySlipCsvRepository>();
         }
-        public PaySlipCsvRepository(string inputFileAddress, string outputFileAddres, ILoggerFactory loggerFactory)
+        public PaySlipCsvRepository(string inputFileAddress, string outputFileAddress, ILoggerFactory loggerFactory): base(outputFileAddress, loggerFactory)
         {
             this.inputFileAddress = inputFileAddress;
-            this.outputFileAddres = outputFileAddres;
-            this.logger = loggerFactory.CreateLogger<PaySlipCsvRepository>();
         }
         public async Task<List<MonthlyPaySlipInput>> GetMonthlyPaySlipInputList()
         {
@@ -46,25 +41,6 @@ namespace Infrastructure.Repositories.PaySlip
                 }
             }
             return monthlyPaySlipInputList;
-        }
-
-        public async Task InsertMonthlyPaySlipOutputList(List<MonthlyPaySlipOutput> result)
-        {
-            var csvConfig = new CsvConfiguration(CultureInfo.CurrentCulture)
-            {
-                HasHeaderRecord = true,
-                Delimiter = ",",
-                Encoding = Encoding.UTF8,
-            };
-            if (string.IsNullOrEmpty(outputFileAddres))
-                throw new ArgumentNullException("outputFileAddress");
-            using (var writer = new StreamWriter(outputFileAddres))
-            using (var csv = new CsvWriter(writer, csvConfig))
-            {
-                logger.LogInformation("Writing monthly pay slip calculation result on file  {outputFileAddres} ...", outputFileAddres);
-                await csv.WriteRecordsAsync(result);
-                logger.LogInformation("{outputFileAddres} successfully created.", outputFileAddres);
-            }
         }
     }
 }

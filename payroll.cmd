@@ -1,0 +1,1 @@
+dotnet run --project .\Payroll.ConsoleApp\ %1 %2

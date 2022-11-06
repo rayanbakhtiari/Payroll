@@ -12,7 +12,7 @@ namespace Application.UnitTests
 {
     public abstract class ValidatorTestHelper<T, TValidator> where T: class where TValidator : AbstractValidator<T>, new()
     {
-        protected AbstractValidator<T> targetValidator;
+        protected AbstractValidator<T> targetValidator = new TValidator();
 
         protected IEnumerable<ValidationFailure> AssertThrowValidationErrorFor<TProperty>(T target, Expression<Func<T, TProperty>> memberAccessor)
         {

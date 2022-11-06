@@ -11,8 +11,8 @@ var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddApplicationServices();
-        var inputFileAddress = args.Length > 0 ? args[0] : "input.csv";
-        var outputFileAddress = args.Length> 1 ? args?[1] : "output.csv";
+        var inputFileAddress = args?.Length > 0 ? args[0] : "input.csv";
+        var outputFileAddress = args?.Length> 1 ? args[1] : "output.csv";
         services.AddPaySlipFileRepositoryForConsoleApp(inputFileAddress, outputFileAddress);
     })
     .UseSerilog((ctx, lc) =>

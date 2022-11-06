@@ -15,16 +15,21 @@ namespace Infrastructure.Repositories.PaySlip
 
         public Stream InputStream { get; private set; }
         public string OutputFileAddress { get; private set; }
-        public PaySlipFileRepositoryFactoryWithInputStream(Stream inputStream, ILoggerFactory loggerFactory)
+        public PaySlipFileRepositoryFactoryWithInputStream(ILoggerFactory loggerFactory,string baseAddress="")
         {
-            InputStream = inputStream;
             this.loggerFactory = loggerFactory;
-            OutputFileAddress = $@"payslip-{Guid.NewGuid()}.csv";
+            OutputFileAddress = string.IsNullOrEmpty(baseAddress)?
+                $@"payslip-{Guid.NewGuid()}.csv": $@"{baseAddress}/payslip-{Guid.NewGuid()}.csv";
         }
 
         public IPaySlipRepository CreatePaySlipRepository()
         {
             return new PaySlipCsvRepositoryWithInputStream(InputStream, OutputFileAddress,loggerFactory);
+        }
+
+        public void SetInputStream(Stream stream)
+        {
+            this.InputStream = stream;
         }
     }
 }

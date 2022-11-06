@@ -29,11 +29,11 @@ namespace Infrastructure
                 return paySlipFactory;
             });
         }
-        public static void AddPaySlipFileRepositoryWithInputStream(this IServiceCollection services, Stream inputStream)
+        public static void AddPaySlipFileRepositoryWithInputStream(this IServiceCollection services, string baseAddress="")
         {
             services.AddScoped<IPaySlipRepositoryFactory>(p => {
                 ILoggerFactory? logger = p.GetService<ILoggerFactory>();
-                PaySlipFileRepositoryFactoryWithInputStream paySlipFactory = new(inputStream, logger ?? new NullLoggerFactory());
+                PaySlipFileRepositoryFactoryWithInputStream paySlipFactory = new(logger ?? new NullLoggerFactory(), baseAddress);
                 return paySlipFactory;
             });
         }

@@ -1,8 +1,13 @@
 using Application;
+using Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Globalization;
+using System.Reflection;
 //Set CultureInfo to en-US in order to prevent CultureInfo at destination runtime.
 SetCultureInfoToEnUS();
+string outputCsvDirectory = $@"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}/OutputData";
+if (!Directory.Exists(outputCsvDirectory))
+    Directory.CreateDirectory(outputCsvDirectory);
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationServices();
+builder.Services.AddPaySlipFileRepositoryWithInputStream(outputCsvDirectory);
 
 var app = builder.Build();
 
@@ -28,6 +34,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();
 

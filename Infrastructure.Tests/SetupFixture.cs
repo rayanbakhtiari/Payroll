@@ -1,4 +1,5 @@
 ﻿using Application.Handlers.MonthlyPaySlip;
+using Infrastructure.Repositories.PaySlip;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -54,9 +55,10 @@ namespace Infrastructure.Tests
         public IPaySlipRepositoryFactory AddPaySlipFileRepositoryFactoryWithInputStream(Stream inputStream, string outputFileAddress)
         {
             InitializeServices();
-            _services.AddPaySlipFileRepositoryWithInputStream(inputStream);
+            _services.AddPaySlipFileRepositoryWithInputStream();
             var builder = _services.BuildServiceProvider();
-            var factory = builder.GetService<IPaySlipRepositoryFactory>();
+            var factory = builder.GetService<IPaySlipRepositoryFactory>() as PaySlipFileRepositoryFactoryWithInputStream;
+            factory.SetInputStream(inputStream);
             if(factory is null)
             {
                 throw new InvalidOperationException("IPaySlipRepositoryFactory");

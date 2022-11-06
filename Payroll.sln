@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll", "Payroll\Payroll.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTests", "Application.UnitTests\Application.UnitTests.csproj", "{E4F53018-B2AC-40A4-9762-81E6BBA61BCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payroll.ConsoleApp", "Payroll.ConsoleApp\Payroll.ConsoleApp.csproj", "{8E6A83D4-43A5-4B8B-B548-0AD81E8A4326}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.ConsoleApp", "Payroll.ConsoleApp\Payroll.ConsoleApp.csproj", "{8E6A83D4-43A5-4B8B-B548-0AD81E8A4326}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Tests", "Infrastructure.Tests\Infrastructure.Tests.csproj", "{0D41B136-18A4-4605-AA36-A85A77F89778}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{8E6A83D4-43A5-4B8B-B548-0AD81E8A4326}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E6A83D4-43A5-4B8B-B548-0AD81E8A4326}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E6A83D4-43A5-4B8B-B548-0AD81E8A4326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D41B136-18A4-4605-AA36-A85A77F89778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D41B136-18A4-4605-AA36-A85A77F89778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D41B136-18A4-4605-AA36-A85A77F89778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D41B136-18A4-4605-AA36-A85A77F89778}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{57240D69-1106-4822-9BB1-D394874B1BFA} = {862AC567-4A0C-47A0-89A2-A0D701894FCF}
 		{E4F53018-B2AC-40A4-9762-81E6BBA61BCC} = {6FEF5F37-25F1-46ED-A9F1-4433E3B565D6}
 		{8E6A83D4-43A5-4B8B-B548-0AD81E8A4326} = {862AC567-4A0C-47A0-89A2-A0D701894FCF}
+		{0D41B136-18A4-4605-AA36-A85A77F89778} = {6FEF5F37-25F1-46ED-A9F1-4433E3B565D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE01EFB5-3F30-4A57-B9C2-90EE65283871}

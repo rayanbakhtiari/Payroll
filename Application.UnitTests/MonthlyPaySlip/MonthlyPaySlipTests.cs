@@ -115,6 +115,13 @@ namespace Application.UnitTests.MonthlyPaySlip
             Assert.Equal(1000.00m, response.Result[1].Super);
         }
 
+        [Fact]
+        public async Task Monthly_PaySlip_Output_List_Length_Should_Be_Same_As_Input_List()
+        {
+            SetupPaySlipRepositoryWith(p => p.BuildAListOf(5));
+            var response = await Mediator.Send(new GetMonthlyPaySlipsQuery());
+            Assert.Equal(5, response.Result.Count);
+        }
         private void SetupPaySlipRepositoryWith(Func<MonthlyPaySlipInputBuilder,List<MonthlyPaySlipInput>> func)
         {
             MonthlyPaySlipInputBuilder test = new MonthlyPaySlipInputBuilder();

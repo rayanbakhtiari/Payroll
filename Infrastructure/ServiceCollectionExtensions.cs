@@ -1,6 +1,6 @@
 ﻿using Application;
 using Application.Handlers.MonthlyPaySlip;
-using Infrastructure.Repositories;
+using Infrastructure.Repositories.PaySlip;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,7 +19,7 @@ namespace Infrastructure
         public static void AddPaySlipFileRepositoryForConsoleApp(this IServiceCollection services, string inputFileAddress, string outputFileAddress)
         {
             services.AddScoped<IPaySlipRepositoryFactory>(p => {
-                var logger = p.GetService<ILogger<IPaySlipRepository>>();
+                var logger = p.GetService<ILoggerFactory>();
                 var paySlipFactory = new PaySlipFileRepositoryFactory(logger);
                 paySlipFactory.InputFileAddress = inputFileAddress;
                 paySlipFactory.OutputFileAddress = outputFileAddress;

@@ -1,6 +1,8 @@
 ﻿using Application.Handlers.MonthlyPaySlip;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,7 @@ namespace Application.UnitTests
             _services = new ServiceCollection();
             _services.AddApplicationServices();
             _services.AddSingleton<IPaySlipRepositoryFactory>(paySlipRepositoryFactoryMock.Object);
+            _services.AddSingleton<ILoggerFactory, NullLoggerFactory>();
             var provider = _services.BuildServiceProvider();
             Mediator = provider.GetService<IMediator>();
 

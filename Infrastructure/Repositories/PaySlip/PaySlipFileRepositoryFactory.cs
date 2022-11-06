@@ -9,27 +9,27 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Repositories.PaySlip
 {
     public class PaySlipFileRepositoryFactory : IPaySlipRepositoryFactory
     {
-        private readonly ILogger<IPaySlipRepository> logger;
+        private readonly ILoggerFactory loggerFactory;
         public string? InputFileAddress { get; set; }
         public string? OutputFileAddress { get; set; }
 
-        public PaySlipFileRepositoryFactory(ILogger<IPaySlipRepository> logger )
+        public PaySlipFileRepositoryFactory(ILoggerFactory loggerFactory)
         {
-            this.logger = logger;
+            this.loggerFactory = loggerFactory;
         }
 
         public IPaySlipRepository CreatePaySlipRepository()
         {
-            if(InputFileAddress is null)
+            if (InputFileAddress is null)
                 throw new ArgumentNullException(nameof(InputFileAddress));
-            if(OutputFileAddress is null)
-                return new PaySlipCsvRepository(InputFileAddress, logger);
+            if (OutputFileAddress is null)
+                return new PaySlipCsvRepository(InputFileAddress, loggerFactory);
             else
-                return new PaySlipCsvRepository(InputFileAddress, OutputFileAddress , logger);
+                return new PaySlipCsvRepository(InputFileAddress, OutputFileAddress, loggerFactory);
         }
     }
 }

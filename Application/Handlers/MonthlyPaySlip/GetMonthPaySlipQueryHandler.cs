@@ -19,11 +19,11 @@ namespace Application.Handlers.MonthlyPaySlip
         private readonly ITaxCalculator taxCalculator;
         private readonly ILogger<GetMonthPaySlipQueryHandler> logger;
 
-        public GetMonthPaySlipQueryHandler(IPaySlipRepositoryFactory paySlipRepositoryFactory ,ITaxCalculator taxCalculator, ILogger<GetMonthPaySlipQueryHandler> logger)
+        public GetMonthPaySlipQueryHandler(IPaySlipRepositoryFactory paySlipRepositoryFactory ,ITaxCalculator taxCalculator,ILoggerFactory loggerFactory )
         {
             this.paySlipRepository = paySlipRepositoryFactory.CreatePaySlipRepository();
             this.taxCalculator = taxCalculator;
-            this.logger = logger;
+            this.logger = loggerFactory.CreateLogger<GetMonthPaySlipQueryHandler>();
         }
         public async Task<GetMonthlyPaySlipsResponse> Handle(GetMonthlyPaySlipsQuery request, CancellationToken cancellationToken)
         {

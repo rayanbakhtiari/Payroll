@@ -12,8 +12,6 @@ namespace Payroll.Controllers
     [Route("api/[controller]")]
     public class MonthlyPaySlipController : ApiController
     {
-        private readonly ILoggerFactory loggerFactory;
-
         private PaySlipFileRepositoryFactoryWithInputStream PaySlipFileRepositoryFactory
         {
             get

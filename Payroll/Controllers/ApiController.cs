@@ -8,7 +8,7 @@ namespace Payroll.Controllers
     public class ApiController : ControllerBase
     {
         private IMediator? mediator;
-        protected IMediator? Mediator
+        protected IMediator Mediator
         {
             get
             {
